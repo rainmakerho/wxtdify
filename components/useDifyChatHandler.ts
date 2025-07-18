@@ -51,9 +51,6 @@ export function useDifyChatHandler(): ChatHandler {
         const companyInfo: any = JSON.parse(message);
         const companyName = companyInfo.companyName || "";
         setInput(companyName || "");
-        if (settings.autoQuery) {
-          callAppend(companyName);
-        }
         setMessage("");
       } catch (e) {
         console.error("解析 message 失敗:", e);

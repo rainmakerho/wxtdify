@@ -32,6 +32,18 @@ npm run dev
 
    將 Dify API 畫面中的**API 金鑰**的值(如果沒有，請按**建立金鑰**來新增)，貼到設定畫面中的**Dify API 金鑰**欄位中
 
+## 操作 UI
+
+1. 設定畫面
+   <img src="./assets/01.png">
+
+2. 對話 UI
+   <img src="./assets/02.png">
+   <img src="./assets/03.png">
+
+3. 對話列表
+   <img src="./assets/04.png">
+
 ## 版本紀錄
 
 - v1.0.0：初始發行，支援與 Dify 對話

@@ -9,12 +9,12 @@
 
 ## 使用技術
 
-| 類別         | 技術                                         |
-| ------------ | -------------------------------------------- |
-| 擴充開發框架 | [WXT](https://wxt.dev/)                      |
-| LLM API      | Dify Agent                                   |
-| 對話介面     | LlamaIndex ChatUI(https://ui.llamaindex.ai/) |
-| UI 框架      | React 18                                     |
+| 類別         | 技術                                           |
+| ------------ | ---------------------------------------------- |
+| 擴充開發框架 | [WXT](https://wxt.dev/)                        |
+| LLM API      | Dify Agent                                     |
+| 對話介面     | [LlamaIndex ChatUI](https://ui.llamaindex.ai/) |
+| UI 框架      | React 18                                       |
 
 ## 安裝與開發
 
@@ -27,7 +27,9 @@ npm run dev
 
 1. 開啟 Dify API 畫面
 2. 開啟 設定 畫面，將 Dify API 畫面中的值，貼到 設定畫面之中
+
    將 Dify API 畫面中的**API 伺服器**的值，貼到設定畫面中的**Dify API 伺服器 URL**欄位中
+
    將 Dify API 畫面中的**API 金鑰**的值(如果沒有，請按**建立金鑰**來新增)，貼到設定畫面中的**Dify API 金鑰**欄位中
 
 ## 版本紀錄

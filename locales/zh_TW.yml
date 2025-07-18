@@ -1,0 +1,10 @@
+ChatMessages_Empty_heading: 您好，我是 WxtDify
+ChatMessages_Empty_subheading: 我可以呼叫 Dify API
+SaveSuccess: 儲存成功!
+SaveFail: 儲存失敗!
+Saving: 儲存中...
+DifyApiUrl: Dify API 伺服器 URL
+DifyApiKey: Dify API 金鑰
+Save: 儲存
+Delete: 刪除
+Input_Placeholder: 輸入您的訊息...

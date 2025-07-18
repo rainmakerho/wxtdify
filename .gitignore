@@ -137,3 +137,29 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+
+# wxt
+.DS_Store
+.idea
+.output
+.webextrc
+.wxt
+.wxt-runner
+*.log
+/docs/.vitepress/cache
+docs/.vitepress/.temp
+coverage
+dist
+node_modules
+TODOs.md
+web-ext.config.js
+web-ext.config.ts
+templates/*/pnpm-lock.yaml
+templates/*/yarn.lock
+templates/*/package-lock.json
+docs/api/reference
+stats.html
+.tool-versions
+.cache
+*-stats.txt

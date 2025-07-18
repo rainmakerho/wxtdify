@@ -34,14 +34,14 @@ npm run dev
 
 ## 操作 UI
 
-1. 設定畫面
+1. 設定畫面<br>
    <img src="./assets/01.png">
 
-2. 對話 UI
+2. 對話 UI<br>
    <img src="./assets/02.png">
    <img src="./assets/03.png">
 
-3. 對話列表
+3. 對話列表<br>
    <img src="./assets/04.png">
 
 ## 版本紀錄

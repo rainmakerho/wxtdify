@@ -1,5 +1,6 @@
 import { Message } from "@llamaindex/chat-ui";
 import { ChatState } from "@/types/chatState";
+import { ROLE_AI } from "../constants";
 
 export type ChatAction =
   | { type: "INIT"; payload: ChatState }
@@ -8,7 +9,11 @@ export type ChatAction =
   | { type: "DELETE_CONVERSATION"; payload: string }
   | { type: "APPEND_MESSAGE"; payload: { messages: Message[] } }
   | { type: "LOAD_FROM_STORAGE"; payload: ChatState }
-  | { type: "UPDATE_CONVERSATION_ID"; payload: string };
+  | { type: "UPDATE_CONVERSATION_ID"; payload: string }
+  | {
+      type: "UPDATE_LAST_AI_MESSAGE";
+      payload: { content: string; conversationId?: string };
+    };
 
 const newConversationItem = () => {
   return {
@@ -86,6 +91,24 @@ export function chatReducer(state: ChatState, action: ChatAction): ChatState {
             ? {
                 ...c,
                 messages: [...c.messages, ...action.payload.messages],
+              }
+            : c
+        ),
+      };
+    }
+    case "UPDATE_LAST_AI_MESSAGE": {
+      return {
+        ...state,
+        conversations: state.conversations.map((c) =>
+          c.conversationId ===
+          (action.payload.conversationId ?? state.conversationId)
+            ? {
+                ...c,
+                messages: c.messages.map((m, idx, arr) =>
+                  idx === arr.length - 1 && m.role === ROLE_AI
+                    ? { ...m, content: action.payload.content }
+                    : m
+                ),
               }
             : c
         ),

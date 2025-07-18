@@ -69,6 +69,7 @@ export function useDifyChatHandler(): ChatHandler {
       content: "",
       conversationId: state.conversationId,
     };
+
     try {
       const streamProcessParams: StreamProcessParams = {
         baseUrl: apiUrl,
@@ -77,10 +78,47 @@ export function useDifyChatHandler(): ChatHandler {
         conversationId: state.conversationId,
         user,
         signal: controller.signal,
+        onStartStreaming: () => {
+          const aiMessage: Message = {
+            content: "...",
+            role: ROLE_AI,
+          };
+          dispatch({
+            type: "APPEND_MESSAGE",
+            payload: { messages: [aiMessage] },
+          });
+        },
+        onMessage: (content, conversationId) => {
+          if (!state.conversationId && conversationId) {
+            dispatch({
+              type: "UPDATE_CONVERSATION_ID",
+              payload: conversationId,
+            });
+          }
+          dispatch({
+            type: "UPDATE_LAST_AI_MESSAGE",
+            payload: {
+              content,
+              conversationId,
+            },
+          });
+        },
       };
 
       ftechResult = await fetchStreamingAIResponse(streamProcessParams);
-
+      // if (!state.conversationId && ftechResult.conversationId) {
+      //   dispatch({
+      //     type: "UPDATE_CONVERSATION_ID",
+      //     payload: ftechResult.conversationId,
+      //   });
+      // }
+      // dispatch({
+      //   type: "UPDATE_LAST_AI_MESSAGE",
+      //   payload: {
+      //     content: ftechResult.content,
+      //     conversationId: ftechResult.conversationId,
+      //   },
+      // });
       setInput("");
     } catch (e) {
       console.error("Error in append:", e);
@@ -91,22 +129,19 @@ export function useDifyChatHandler(): ChatHandler {
       } else {
         ftechResult.content = `發生錯誤，請稍後再試。${e}`;
       }
+      const ftechMessage: Message = {
+        content: ftechResult.content,
+        role: ROLE_AI,
+      };
+      dispatch({
+        type: "APPEND_MESSAGE",
+        payload: { messages: [ftechMessage] },
+      });
     } finally {
       setIsLoading(false);
       controllerRef.current = null;
     }
-    const ftechMessage: Message = {
-      content: ftechResult.content,
-      role: ROLE_AI,
-    };
 
-    dispatch({ type: "APPEND_MESSAGE", payload: { messages: [ftechMessage] } });
-    if (!state.conversationId && ftechResult.conversationId) {
-      dispatch({
-        type: "UPDATE_CONVERSATION_ID",
-        payload: ftechResult.conversationId,
-      });
-    }
     return null;
   };
 

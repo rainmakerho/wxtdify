@@ -7,6 +7,8 @@ export type StreamProcessParams = {
   conversationId: string;
   user: string;
   signal?: AbortSignal;
+  onStartStreaming?: () => void;
+  onMessage?: (chunk: string, conversation_id: string) => void;
 };
 
 export async function fetchStreamingAIResponse({
@@ -16,6 +18,8 @@ export async function fetchStreamingAIResponse({
   conversationId,
   user,
   signal,
+  onStartStreaming,
+  onMessage,
 }: StreamProcessParams) {
   let result: FetchResult = {
     content: "",
@@ -40,9 +44,11 @@ export async function fetchStreamingAIResponse({
     throw new Error(`HTTP error! status: ${response.status}`);
   }
   if (!response.body) throw new Error("No response body");
+
   const reader = response.body.getReader();
   let decoder = new TextDecoder();
   let messages = "";
+  let isStartStreaming = false;
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
@@ -52,12 +58,17 @@ export async function fetchStreamingAIResponse({
       conversationId || result.conversationId
     );
     messages += chunkResult.content;
+    if (onStartStreaming && !isStartStreaming && messages.length > 0) {
+      isStartStreaming = true;
+      onStartStreaming();
+    }
     if (
       chunkResult.conversationId &&
       chunkResult.conversationId !== result.conversationId
     ) {
       result.conversationId = chunkResult.conversationId;
     }
+    if (onMessage) onMessage(messages, chunkResult.conversationId);
   }
   result.content = messages;
   return result;
